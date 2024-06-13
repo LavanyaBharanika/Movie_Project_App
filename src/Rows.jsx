@@ -9,7 +9,7 @@ import "swiper/css";
 
 const base_url = "https://image.tmdb.org/t/p/w200";
 
-function Rows({ title, fetchUrl }) {
+function Rows({ title, fetchUrl, user }) {
   const [movies, setMovies] = useState([]);
   const navigate = useNavigate();
 

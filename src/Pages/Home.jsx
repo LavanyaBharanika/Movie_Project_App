@@ -2,9 +2,10 @@ import React, {useState, useEffect} from "react";
 import Sidebar from "./Sidebar";
 import Rows from "../Rows";
 import requests from '../request'
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-export default function Home(){
-    
+export default function Home({ auth }){
+    const [user] = useAuthState(auth);
 
     return(
         <div style={{display:'flex', paddingTop:'78px'}}>

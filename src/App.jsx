@@ -64,7 +64,7 @@ export default function App() {
 function PrivateRoutes() {
   return (
     <Routes>
-      <Route path="/*" element={<Home />} />
+      <Route path="/*" element={<Home auth={auth} />} />
       <Route path="/overviews" element={<Overviews />} />
       <Route path="/movie/:id" element={<MovieDetails />} />
       <Route path="/Castlist" element={<CastList />} />

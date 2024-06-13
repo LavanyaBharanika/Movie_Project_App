@@ -21,8 +21,8 @@ export default function Profile() {
                 // Constructing the query to fetch reviews for the user's email
                 const reviewRef = collection(db, 'reviews');
                 //const q = query(reviewRef);
-                 const q = query(reviewRef, where('email', '==', userEmail));
-            
+                 const q = query(reviewRef);
+                //, where('email', '==', userEmail)
                 // Executing the query
                 const querySnapshot = await getDocs(q);
 
