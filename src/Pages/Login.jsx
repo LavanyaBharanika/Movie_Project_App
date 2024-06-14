@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function Login() {
+export default function Login({ onLogin, onGuestMode }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
@@ -21,6 +21,7 @@ export default function Login() {
             if (currentUser) {
                 console.log(currentUser.email);
                 localStorage.removeItem('isGuest'); // Clear guest flag
+                onLogin(); // Update the authentication state
                 navigate('/'); // Redirect to home page
             }
         } catch (error) {
@@ -30,7 +31,7 @@ export default function Login() {
     };
 
     const handleGuestLogin = () => {
-        localStorage.setItem('isGuest', 'true');
+        onGuestMode(); // Update the guest mode state
         navigate('/'); // Redirect to home page as a guest
     };
 
