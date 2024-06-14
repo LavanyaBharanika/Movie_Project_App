@@ -16,6 +16,7 @@ import { auth } from './firebase'; // Import your firebase auth object
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -29,12 +30,26 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  const isGuest = localStorage.getItem('isGuest') === 'true';
+  useEffect(() => {
+    const guestMode = localStorage.getItem('isGuest') === 'true';
+    setIsGuest(guestMode);
+  }, []);
+
+  const handleLogin = () => {
+    // Logic for handling login
+    setIsAuthenticated(true);
+    localStorage.setItem('isGuest', 'false');
+  };
+
+  const handleGuestMode = () => {
+    setIsGuest(true);
+    localStorage.setItem('isGuest', 'true');
+  };
 
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} onGuestMode={handleGuestMode} />} />
         <Route path="/signup" element={<SignUp />} />
         
         <Route
