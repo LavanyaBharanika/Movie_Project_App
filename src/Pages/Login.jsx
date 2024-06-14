@@ -20,6 +20,7 @@ export default function Login() {
             const currentUser = auth.currentUser;
             if (currentUser) {
                 console.log(currentUser.email);
+                localStorage.removeItem('isGuest'); // Clear guest flag
                 navigate('/'); // Redirect to home page
             }
         } catch (error) {
@@ -29,6 +30,7 @@ export default function Login() {
     };
 
     const handleGuestLogin = () => {
+        localStorage.setItem('isGuest', 'true');
         navigate('/'); // Redirect to home page as a guest
     };
 

@@ -14,41 +14,35 @@ import PopUp from "./Pages/PopUp";
 import Profile from "./Pages/Profile";
 import { auth } from './firebase'; // Import your firebase auth object
 
-
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check authentication status on component mount
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        // User is signed in.
         setIsAuthenticated(true);
       } else {
-        // No user is signed in.
         setIsAuthenticated(false);
       }
     });
 
-    // Cleanup function
     return () => unsubscribe();
   }, []);
+
+  const isGuest = localStorage.getItem('isGuest') === 'true';
 
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         
-        {/* Private routes */}
         <Route
           path="/*"
-          element={isAuthenticated ? (
+          element={(isAuthenticated || isGuest) ? (
             <>
               <Navbars />
               <Sidebar />
-              
               <PrivateRoutes />
             </>
           ) : (
@@ -60,11 +54,10 @@ export default function App() {
   );
 }
 
-// Private routes (routes accessible only after login)
 function PrivateRoutes() {
   return (
     <Routes>
-      <Route path="/*" element={<Home auth={auth} />} />
+      <Route path="/" element={<Home auth={auth} />} />
       <Route path="/overviews" element={<Overviews />} />
       <Route path="/movie/:id" element={<MovieDetails />} />
       <Route path="/Castlist" element={<CastList />} />
@@ -72,7 +65,6 @@ function PrivateRoutes() {
       <Route path="/popup" element={<PopUp />} />
       <Route path="/rating" element={<Ratings />} />
       <Route path="/profile/:userEmail" element={<Profile />} />
-
     </Routes>
   );
 }
